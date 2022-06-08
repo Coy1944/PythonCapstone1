@@ -1,4 +1,5 @@
 from datetime import datetime
+from xmlrpc.client import DateTime
 from flaskblog import db, login_manager
 from flask_login import UserMixin
 
@@ -27,3 +28,13 @@ class Post(db.Model):
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
+
+
+class Gcourse(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<name %r>' % self.id
+

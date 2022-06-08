@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container">
+        <h1>Rate Courses</h1>
+        <br/>
+        <form action="/course" METHOD="POST"></form>
+            <input type="text" placeholder="Name" name="name">
+            <input type="submit" value="Add Course" class="btn btn-secondary">
+        </form>
+        <br/><br/>
+        {% for course in courses %} 
+            <h4>
+                {{ course.name }}
+            </h4>
+        {% endfor %}
+    </div>
+{% endblock content %}

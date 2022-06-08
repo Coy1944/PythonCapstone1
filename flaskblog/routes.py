@@ -2,6 +2,7 @@ import os
 import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
+from course import Courses
 from flaskblog import app, db, bcrypt
 from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from flaskblog.models import User, Post
@@ -15,6 +16,21 @@ def home():
     posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
     return render_template('home.html', posts=posts)
 
+
+@app.route("/course", methods=['POST', 'GET'])
+def course():
+    if request.method == 'POST':
+        course_name = request.form['name']
+        new_course = Courses(name=course_name)
+        try:
+            db.session.add(new_course)
+            db.session.commit()
+            return redirect('/course')
+        except:
+            return "There was and error adding rating"
+    else:
+        courses = Courses.query.order_by(Courses.date_created)
+        return render_template('course.html', title='Courses', courses=courses)
 
 @app.route("/about")
 def about():
