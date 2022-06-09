@@ -13,6 +13,7 @@ def load_user(user_id):
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
     first_name = db.Column(db.String(256), unique=False, nullable=True)
     last_name = db.Column(db.String(256), unique=False, nullable=True)
     user_email= db.Column(db.String(256), unique=True, nullable=False)
@@ -38,12 +39,13 @@ class Course_rating(db.Model):
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    text = db.Column(db.Text, nullable=False)
+    content = db.Column(db.Text, nullable=False)
     course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    title = db.Column(db.String(100), nullable=False)
     
     def __repr__(self):
-        return f"Post('{self.text}', '{self.date_posted}')"
+        return f"Post('{self.title}', '{self.date_posted}')"
 
 # class User(db.Model, UserMixin):
 #     id = db.Column(db.Integer, primary_key=True)
