@@ -1,5 +1,5 @@
 import sqlite3
-from course import Courses
+from golfing import Courses
 
 conn = sqlite3.connect('course.db')
 
