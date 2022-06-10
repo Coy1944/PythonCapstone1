@@ -18,7 +18,10 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(256), unique=False, nullable=True)
     user_email= db.Column(db.String(256), unique=True, nullable=False)
     user_password = db.Column(db.String(256), nullable=False)
+    # posts = db.relationship('Post', backref='author', lazy=True)
     # image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+
+    posts = db.relationship("Post", back_populates="user")
 
     def __repr__(self):
         return f"User('{self.last_name}', '{self.user_email}', '{self.image_file}')"
@@ -29,6 +32,7 @@ class Courses(db.Model):
     rating_score = db.Column(db.Integer, nullable=False)
     course_difficulty = db.Column(db.Integer, nullable=False)
     course_location = db.Column(db.Integer, nullable=False)
+    name = db.Column(db.Text, nullable=False)
 
 class Course_rating(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -39,6 +43,7 @@ class Course_rating(db.Model):
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship("User", back_populates="posts")
     content = db.Column(db.Text, nullable=False)
     course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)

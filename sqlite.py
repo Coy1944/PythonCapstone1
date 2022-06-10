@@ -1,3 +1,4 @@
+from re import I
 import sqlite3
 from golfing import Courses
 
@@ -23,6 +24,11 @@ cor_4 = Courses('Sky Mountain', 'Hurricane', 70)
 # c.execute("INSERT INTO courses VALUES (?, ?, ?)", (cor_2.name, cor_2.location, cor_2.cost))
 # c.execute("INSERT INTO courses VALUES (?, ?, ?)", (cor_3.name, cor_3.location, cor_3.cost))
 # c.execute("INSERT INTO courses VALUES (?, ?, ?)", (cor_4.name, cor_4.location, cor_4.cost))
+
+insert into courses (rating_score, course_difficulty, course_location, name) values (3, 2, 888, 'green hills');
+insert into courses (rating_score, course_difficulty, course_location, name) values (1, 1, 777, 'Sunbrook');
+insert into courses (rating_score, course_difficulty, course_location, name) values (1, 1, 777, 'Sand Hollow');
+
 
 # # # conn.commit()
 

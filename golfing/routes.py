@@ -16,6 +16,7 @@ def home():
     posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
     return render_template('home.html', posts=posts)
 
+
 @app.route("/course", methods=['POST', 'GET'])
 def course():
     if request.method == 'POST':
@@ -28,7 +29,7 @@ def course():
         except:
             return "There was and error adding rating"
     else:
-        courses = Courses.query.order_by(Courses.date_created)
+        courses = Courses.query.all()
         return render_template('course.html', title='Courses', courses=courses)
 
 @app.route("/about")
@@ -43,7 +44,7 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, user_email=form.email.data, password=hashed_password)
+        user = User(username=form.username.data, user_email=form.email.data, user_password=hashed_password)
         db.session.add(user)
         db.session.commit()
         flash('Your account has been created! You are now able to log in', 'success')
@@ -58,7 +59,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(user_email=form.email.data).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
+        if user and bcrypt.check_password_hash(user.user_password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('home'))
@@ -96,24 +97,34 @@ def account():
             picture_file = save_picture(form.picture.data)
             current_user.image_file = picture_file
         current_user.username = form.username.data
-        current_user.email = form.email.data
+        current_user.user_email = form.email.data
         db.session.commit()
         flash('Your account has been updated!', 'success')
         return redirect(url_for('account'))
     elif request.method == 'GET':
         form.username.data = current_user.username
-        form.email.data = current_user.email
-    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+        form.email.data = current_user.user_email
+        # image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Account',
-                           image_file=image_file, form=form)
+                            form=form)
+
+
+def populate_post_form_choices(form):
+    print('populate_post_form_choices')
+    courses = Courses.query.all()
+    course_choices = []
+    for course in courses:
+        course_choices.append([course.id, course.name])
+    form.course_id.choices = course_choices
 
 
 @app.route("/post/new", methods=['GET', 'POST'])
 @login_required
 def new_post():
     form = PostForm()
+    populate_post_form_choices(form)
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        post = Post(course_id=form.course_id.data, title=form.title.data, content=form.content.data, user_id=current_user.id)
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'success')
