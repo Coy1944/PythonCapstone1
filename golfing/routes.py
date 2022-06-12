@@ -5,8 +5,21 @@ from flask import render_template, url_for, flash, redirect, request, abort
 # from golfing import Courses
 from golfing import app, db, bcrypt
 from golfing.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
-from golfing.models import User, Post, Courses
+from golfing.models import User, Post, Courses, Course_rating
 from flask_login import login_user, current_user, logout_user, login_required
+
+
+def create_course_choices():
+    courses = Courses.query.all()
+    course_choices = []
+    for course in courses:
+        course_choices.append([course.id, course.name])
+    return course_choices
+
+
+def populate_post_form_choices(form):
+    print('populate_post_form_choices')
+    form.course_id.choices = create_course_choices()
 
 
 @app.route("/")
@@ -27,10 +40,29 @@ def course():
             db.session.commit()
             return redirect('/course')
         except:
-            return "There was and error adding rating"
+            return "There was and error adding course"
     else:
         courses = Courses.query.all()
         return render_template('course.html', title='Courses', courses=courses)
+
+
+@app.route("/course/rating", methods=['POST', 'GET'])
+def course_rating():
+    if request.method == 'POST':
+        course_id = request.form['course']
+        rating = request.form['rating']
+        new_course = Course_rating(user_id=current_user.id, course_id=course_id, rating=rating)
+        try:
+            db.session.add(new_course)
+            db.session.commit()
+            return redirect('/course')
+        except:
+            return "There was and error adding rating"
+    else:
+        courses = Courses.query.all()
+        course_choices = create_course_choices()
+        return render_template('course_rating.html', title='Courses', courses=courses, course_choices=course_choices)
+
 
 @app.route("/about")
 def about():
@@ -107,15 +139,6 @@ def account():
         # image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Account',
                             form=form)
-
-
-def populate_post_form_choices(form):
-    print('populate_post_form_choices')
-    courses = Courses.query.all()
-    course_choices = []
-    for course in courses:
-        course_choices.append([course.id, course.name])
-    form.course_id.choices = course_choices
 
 
 @app.route("/post/new", methods=['GET', 'POST'])

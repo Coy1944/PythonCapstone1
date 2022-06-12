@@ -3,29 +3,24 @@
     <div class="container">
         <h1>Rate Courses</h1>
         <br/>
-        <form action="/course" METHOD="POST"></form>
-            <input type="text" placeholder=" Course Name" name="name">
-            <input type="text" placeholder="Rating: 1-5" name="rating">
-            <input type="submit" value="Submit Rating" class="btn btn-secondary">
-        </form>
+        <form action="" METHOD="POST">
         <br/><br/>
-        <br />
         <fieldset>
             <legend>
                 Your Course Review:
             </legend>
-            <p>
+            <div>
              <label for="hear-about">
                  Which Course do you want to review?
              </label>  
              <select name="course">
-                 <option value="google">Green Springs</option>
-                 <option value="friend">Sunbrook</option>
-                 <option value="commercial">Sand Hollow</option>
-                 <option value="other">Southgate</option>
+                {% for course in course_choices %}
+                {{course}}
+                    <option value="{{course[0]}}">{{course[1]}}</option>
+                {% endfor %}
              </select>  
-            </p>
-            <p>
+            </div>
+            <div>
                 Rate out of 5
                 <br />
                 <label>
@@ -48,19 +43,8 @@
                     <input type="radio" name="rating" value="5" />
                     5 
                 </label>
-             </p>
-             <p>
-                <label for="comments">
-                    Comments:
-                </label>
-                <br />
-                <textarea rows="4" cols="40" id="comments">
-                </textarea>
-            </p>
-            <label>
-                <input type="checkbox" name="subscribe" checked="checked" />
-                Sign me up for email updates
-            </label>
+            </div>
+            
             <br />
             <input type="submit" name="submit" value="Submit review" />
            </fieldset>
