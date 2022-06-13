@@ -1,5 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
+<h1 class="text-center">Two Off The First Tee</h1>
+
+<div class="d-flex justify-content-center"><img src="{{ url_for('static', filename='golf.png') }}" alt="Sand Hollow" width="700" height="450" /></div>    
+  <br>  
     {% for post in posts.items %}
         <article class="media content-section">
           <div class="media-body">
@@ -10,7 +14,7 @@
             <h2><a class="article-title" href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h2>
             <p class="article-content">{{ post.content }}</p>
           </div>
-        </article>
+        </article> 
     {% endfor %}
     {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
       {% if page_num %}
