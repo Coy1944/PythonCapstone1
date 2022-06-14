@@ -2,13 +2,8 @@
 {% block content %}
     
 </br>
-<section class="d-flex justify-content-center cont-recipe">
-    <p><h4>See More Courses in St George:</h4>
-       <ul>
-        <br> <li><a href="https://www.stgeorgeutahgolf.com/list-of-st-george-golf-courses//" target="_blank">St George Courses</a></li>
-           
-
-       </ul>
+<div class="d-flex justify-content-center"><img src="{{ url_for('static', filename='sk.png') }}" alt="Sand Hollow" width="700" height="450" /></div>    
+  <br>  
     </p>
 </section>
 
@@ -26,11 +21,11 @@
         <br/><br/>
         <br />
         <fieldset>
-            <legend>
+            <legend style="color:rgb(26, 25, 25)">
                 Your Course Review:
             </legend>
             <p>
-             <label for="hear-about">
+             <label for="hear-about" style="color:rgb(26, 25, 25)">
                  Which Course do you want to review?
              </label>  
              <select name="course">
@@ -40,27 +35,27 @@
                  <option value="other">Southgate</option>
              </select>  
             </p>
-            <p>
+            <p style="color:rgb(26, 25, 25)">
                 Rate out of 5
                 <br />
                 <label>
-                    <input type="radio" name="rating" value="1" />
+                    <input type="radio" name="rating" value="1" style="color:rgb(26, 25, 25)" />
                     1 
                 </label>
                 <label>
-                    <input type="radio" name="rating" value="2" />
+                    <input type="radio" name="rating" value="2" style="color:rgb(26, 25, 25)" />
                     2
                 </label>
                 <label>
-                    <input type="radio" name="rating" value="3" />
+                    <input type="radio" name="rating" value="3"  style="color:rgb(26, 25, 25)"/>
                     3
                 </label>
                 <label>
-                    <input type="radio" name="rating" value="4" />
+                    <input type="radio" name="rating" value="4"  style="color:rgb(26, 25, 25)"/>
                     4 
                 </label>
                 <label>
-                    <input type="radio" name="rating" value="5" />
+                    <input type="radio" name="rating" value="5" style="color:rgb(26, 25, 25)" />
                     5 
                 </label>
              </p>
@@ -79,11 +74,23 @@
             <br />
             <input type="submit" name="submit" value="Submit review" />
            </fieldset>
-   </form>
+           <br>
+
+        <section class="d-flex justify-content-center cont-recipe">
+            <p><h4>See More Courses in St George:</h4>
+                <br> 
+                <ul>
+                <li><a href="https://www.stgeorgeutahgolf.com/list-of-st-george-golf-courses//" target="_blank">St George Courses</a></li>
+                   
+        
+               </ul>
+               <br>
+   
+         <!-- </form>
         {% for course in courses %} 
             <h4>
                 {{ course }}
             </h4>
-        {% endfor %}
+        {% endfor %} -->
     </div>
 {% endblock content %}

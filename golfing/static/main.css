@@ -1,5 +1,5 @@
 body {
-    background: #cd6d6d;
+    background: #f6be8a;
     color: #a49d9d;
     margin-top: 5rem;
   }
@@ -77,4 +77,12 @@ body {
   
   .account-heading {
     font-size: 2.5rem;
+  }
+
+  td.Sunbrook {
+    min-width: 450px;
+    max-width: 650px;
+    text-align: right;
+    padding: 5px;
+    margin: 0px;
   }

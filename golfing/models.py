@@ -19,7 +19,7 @@ class User(db.Model, UserMixin):
     user_email= db.Column(db.String(256), unique=True, nullable=False)
     user_password = db.Column(db.String(256), nullable=False)
     # posts = db.relationship('Post', backref='author', lazy=True)
-    # image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+    # image_file = db.Column(db.String(20), nullable=False, default='default.jpg') 
 
     posts = db.relationship("Post", back_populates="user")
 
